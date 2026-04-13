@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IoT Prediction</title>
+</head>
+<body>
+
+<h2>Device Status Predictor</h2>
+
+<input id="temp" placeholder="Temperature"><br><br>
+<input id="hum" placeholder="Humidity"><br><br>
+<input id="usage" placeholder="Usage Hours"><br><br>
+
+<button onclick="predict()">Predict</button>
+
+<h3 id="result"></h3>
+
+<script>
+async function predict() {
+    const response = await fetch("http://127.0.0.1:8000/predict-device-status", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            temperature: Number(document.getElementById("temp").value),
+            humidity: Number(document.getElementById("hum").value),
+            usage_hours: Number(document.getElementById("usage").value)
+        })
+    });
+
+    const data = await response.json();
+    document.getElementById("result").innerText = "Status: " + data.status;
+}
+</script>
+
+</body>
+</html>
